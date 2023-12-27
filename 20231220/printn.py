@@ -9,6 +9,7 @@ def func2(n):
         return 0
     return n+func2(n-1)
 
+func1(3)
 
 a = func2(3)
 print(a)
