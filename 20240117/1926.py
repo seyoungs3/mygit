@@ -24,3 +24,4 @@ for i in range(n):
                     if paper[i][j] == 1 and vis[x][y] == 0:
                         Q.append((x,y))
                         vis[x][y] = 1
+                        

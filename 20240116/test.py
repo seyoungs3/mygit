@@ -25,8 +25,6 @@
 # 아 이동함수 만들어야됨,,,, 칸이 이동되잖슴
 # 방향 함수에서 더할 수 있으면 더하고 못 더하면 이동시키면 됨
 
-# 이 방법 시간복잡도 개같이 멸망
-
 def up(inblock):
     outblock = [list(0 for _ in range(n)) for _ in range(n)]
     for j in range(n):
@@ -45,21 +43,44 @@ def up(inblock):
 def down(inblock):
     outblock = [list(0 for _ in range(n)) for _ in range(n)]
     for j in range(n):
-        cur = 0
+        cur = n-1
         for i in range(n):
             if inblock[i][j] != 0:
                 outblock[cur][j] = inblock[i][j]
-                cur+=1
+                cur-=1
     for j in range(n):
-        for i in range(n-1):
-            if outblock[i][j] == outblock[i+1][j]:
+        for i in range(n):
+            if outblock[i][j] == outblock[i-1][j]:
                 outblock[i][j] *= 2
-                outblock[i+1][j] = 0
-    return outblock 
+                outblock[i-1][j] = 0
+    return outblock
+
+def left(array):
+    arr = [0 for _ in range(n)]
+    pre = 0
+    idx = 0
+    for i in range(len(array)):
+        if array[i] == 0:
+            continue
+        if array[i] != 0:
+            if array[i] != arr[pre]:
+                arr[idx] = array[i]
+                idx += 1
+            if array[i] == arr[pre]:
+                arr[pre] *= 2
+                pre+=1
+    return arr
+        
 
 n = int(input())
-block = [list(map(int, input().split())) for _ in range(n)]
-outblock = up(block)
+# block = [list(map(int, input().split())) for _ in range(n)]
+# outblock = up(block)
 
-for line in outblock:
-    print(line)
+# for line in outblock:
+#     print(line)
+
+array = list(map(int, input().split()))
+
+ans = left(array)
+
+print(ans)

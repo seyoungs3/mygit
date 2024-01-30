@@ -11,10 +11,8 @@
 # 2보다 크고 1024보다 작은 2의 제곱수
 
 # 시간복잡도
-# 브루트 포스를 이용할 경우
-# 4방향이니까 4**5 * 20 * 20 == 409600 -> 가능
+# 20*20*5*4**5 == 2048000
 
-# 생각해보니까 백트래킹임 (가지 뻗어가는 모양이니까)
 # 한 방향에 대해서 시작
 # 각 칸에 대해서 더할 수 있는지 확인 후 더할 수 있으면 더함
 # 더할 수 있는 경우: 이동방향의 칸이 같은 경우
@@ -25,15 +23,21 @@
 # 아 이동함수 만들어야됨,,,, 칸이 이동되잖슴
 # 방향 함수에서 더할 수 있으면 더하고 못 더하면 이동시키면 됨
 
-def up(inblock):
-    outblock = [list(0 for _ in range(n)) for _ in range(n)]
-    cur = 0
-    for j in range(n):
-        for i in range(n):
-            if inblock[i][j] != 0:
-                outblock[cur][j] = inblock[i]
-                cur+=1
-                
+def left(array):
+    arr = [0 for _ in range(n)]
+    pre = 0
+    idx = 0
+    for i in range(len(array)):
+        if array[i] == 0:
+            continue
+        if array[i] != 0:
+            if array[i] != arr[pre]:
+                arr[idx] = array[i]
+                idx += 1
+            if array[i] == arr[pre]:
+                arr[pre] *= 2
+                pre+=1
+    return arr
 
 
 n = int(input())
