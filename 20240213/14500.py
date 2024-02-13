@@ -4,69 +4,49 @@
 # 테트로미노가 놓인 칸에 쓰여 있는 수의 합을 최대로
 # 테트로미노 회전이나 대칭 가능
 
-# brute force
-# n, m = map(int, input().split())
-# scores = [list(map(int, input().split())) for _ in range(n)]
+# bfs
+# area == 4
 
-tetro1 = [[1,1,1,1]]
-tetro2 = [[1,1],
-          [1,1]]
-tetro3 = [[1,0],
-          [1,0],
-          [1,1]]
-tetro4 = [[1,0],
-          [1,1],
-          [0,1]]
-tetro5 = [[1,1,1],
-          [0,1,0]]
-tetros = [tetro1, tetro2, tetro3, tetro4, tetro5]
+# cheated
+#  ㅓ ㅏ ㅗ ㅜ 모양 구현 잘 이해 못했음 -> 34, 35줄
+# 시간초과
 
-def rotate(arr): 
-    col = len(arr) # 3
-    row = len(arr[0]) # 2
-    temp = [[0 for _ in range(col)] for _ in range(row)]
-    for i in range(row):
-        for j in range(col):
-            temp[i][j] = arr[col-1-j][i]
-    arr = temp[:]
-    return arr
+import sys
+input = sys.stdin.readline
 
-def flipx(arr): 
-    col = len(arr)
-    row = len(arr[0])
-    temp = [[0 for _ in range(row)] for _ in range(col)]
-    for i in range(col):
-        for j in range(row):
-            temp[i][j] = arr[col-1-i][j]
-    arr = temp[:]
-    return arr
-    
-def flipy(arr): 
-    col = len(arr)
-    row = len(arr[0])
-    temp = [[0 for _ in range(row)] for _ in range(col)]
-    for i in range(col):
-        for j in range(row):
-            temp[i][j] = arr[i][row-1-j]
-    arr = temp[:]
-    return arr
+dx = [-1,1,0,0]
+dy = [0,0,-1,1]
+
+
+def bfs(i,j, cnt):
+    global mx, sum
+    if cnt == 4:
+        mx = max(mx, sum)
+        return
+    for dir in range(4):
+        x = i+dx[dir]
+        y = j+dy[dir]
+        if x < 0 or x >= n or y < 0 or y >= m:
+            continue
+        if vis[x][y] != 0:
+            continue
+        sum += scores[x][y]
+        vis[x][y] = 1
+        bfs(x,y,cnt+1) # 새로운 칸에서 탐색
+        if cnt == 2:
+            bfs(i,j,cnt+1) # 이전 칸에서 탐색
+        sum -= scores[x][y]
+        vis[x][y] = 0
 
 n, m = map(int, input().split())
-paper = [list(map(int, input().split())) for _ in range(n)]
-
+scores = [list(map(int, input().split())) for _ in range(n)]
+vis = [[0 for _ in range(m)] for _ in range(n)]
 mx = 0
-for tetro in tetros:
-    col = len(tetro)
-    row = len(tetro[0])
-    for start_x in range(n-col+1):
-        for start_y in range(m-row+1):
-            sum = 0
-            for i in range(start_x, start_x+col):
-                for j in range(start_y, start_y+row):
-                    if tetro[i-start_x][j-start_y] == 1:
-                        sum += paper[i][j]
-            mx = max(sum, mx)
+for i in range(n):
+    for j in range(m):
+        sum = scores[i][j]
+        vis[i][j] = 1
+        bfs(i,j,1)
+        vis[i][j] = 0
 
 print(mx)
-
-        
