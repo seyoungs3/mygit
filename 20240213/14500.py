@@ -21,7 +21,7 @@ tetro5 = [[1,1,1],
           [0,1,0]]
 tetros = [tetro1, tetro2, tetro3, tetro4, tetro5]
 
-def rotate(arr): # 정상 동작 확인 완료
+def rotate(arr): 
     col = len(arr) # 3
     row = len(arr[0]) # 2
     temp = [[0 for _ in range(col)] for _ in range(row)]
@@ -31,7 +31,7 @@ def rotate(arr): # 정상 동작 확인 완료
     arr = temp[:]
     return arr
 
-def flipx(arr): # 정상 동작 확인 완료
+def flipx(arr): 
     col = len(arr)
     row = len(arr[0])
     temp = [[0 for _ in range(row)] for _ in range(col)]
@@ -41,7 +41,7 @@ def flipx(arr): # 정상 동작 확인 완료
     arr = temp[:]
     return arr
     
-def flipy(arr): # 정상 동작 확인 완료
+def flipy(arr): 
     col = len(arr)
     row = len(arr[0])
     temp = [[0 for _ in range(row)] for _ in range(col)]
