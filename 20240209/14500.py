@@ -32,10 +32,18 @@ def rotate(arr): # 정상 동작 확인 완료
     arr = temp[:]
     return arr
 
-# def flipx():
+def flipx(arr):
+    col = len(arr)
+    row = len(arr[0])
+    temp = [[0 for _ in range(row)] for _ in range(col)]
+    for i in range(col):
+        for j in range(row):
+            temp[i][j] = arr[col-1-i][j]
+    arr = temp[:]
+    return arr
     
 # def flipy():
 
-tetro3 = rotate(tetro3)
+tetro3 = flipx(tetro3)
 for line in tetro3:
     print(line)
