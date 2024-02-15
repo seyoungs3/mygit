@@ -11,10 +11,12 @@
 # O 구멍
 # 10번 이하로 빼낼 수 없으면 -1
 
-# 백트래킹
+# 백트래킹을 시도했으나 안됨
 
 from itertools import product
 import copy
+import sys
+sys.setrecursionlimit(10000000)
 
 def turn():
     global cboard
@@ -74,25 +76,27 @@ def down():
         turn()
     left()
 
-
-def solve():
-    global cboard
+def solve(cur):
+    global cboard, cnt
+    cnt = 0
     cboard = copy.deepcopy(board)
-    func = [left, up, right, down]
-    arr = list(product(func, repeat = 10))
-    for p in arr:
-        cboard = copy.deepcopy(board)
+    if cur == 10:
         cnt = 0
-        for function in p:
-            function()
-            cnt += 1
-            if 'R' not in cboard:
-                if 'B' in cboard:
-                    return cnt
+        return
+    for dir in func:
+        dir()
+        cnt += 1
+        backboard = copy.deepcopy(cboard)
+        if all('R' not in c for c in cboard):
+            if any('B' in c for c in cboard):
+                return cnt
+        solve(cur+1)
+        cboard = copy.deepcopy(backboard)
     return -1
-
+      
 n, m = map(int, input().split())
 board = [list(input()) for _ in range(n)]
 
-solve()
-
+func = [left, right, up, down]
+ans = solve(0)
+print(ans)
