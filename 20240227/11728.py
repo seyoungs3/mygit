@@ -1,6 +1,6 @@
 # 배열 합치기
 
-# merge sort로 안했음
+# merge sort
 
 import sys
 
@@ -11,8 +11,23 @@ n, m = map(int, input().split())
 a = list(map(int, input().split()))
 b = list(map(int, input().split()))
 
-c = a + b
+aidx = 0
+bidx = 0
+c = []
 
-c = sorted(c)
+for i in range(n+m):
+    if aidx >= n:
+        c.append(b[bidx])
+        bidx+=1
+    elif bidx >= m:
+        c.append(a[aidx])
+        aidx+=1
+    elif a[aidx] <= b[bidx]:
+        c.append(a[aidx])
+        aidx+=1
+    elif a[aidx] > b[bidx]:
+        c.append(b[bidx])
+        bidx+=1
 
 print(*c)
+    
